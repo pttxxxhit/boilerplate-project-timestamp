@@ -21,7 +21,7 @@ app.get("/api/:date?", (req, res) => {
         return res.json({ error: "Invalid Date" });
     }
 
-    // Respuesta JSON en el formato exacto que esperan los tests
+    // Respuesta JSON exacta
     res.json({
         unix: date.getTime(),       // número en milisegundos
         utc: date.toUTCString()     // string en formato Thu, 01 Jan 1970 00:00:00 GMT
