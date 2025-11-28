@@ -1,32 +1,34 @@
-// index.js
-// where your node app starts
+const express = require("express");
+const app = express();
 
-// init project
-var express = require('express');
-var app = express();
+app.get("/api/:date?", (req, res) => {
+    const dateParam = req.params.date;
+    let date;
 
-// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC 
-var cors = require('cors');
-app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+    if (!dateParam) {
+        // Si no hay parámetro, usar la fecha actual
+        date = new Date();
+    } else if (/^\d+$/.test(dateParam)) {
+        // Si es un número (timestamp en ms)
+        date = new Date(parseInt(dateParam));
+    } else {
+        // Si es string (fecha en formato ISO)
+        date = new Date(dateParam);
+    }
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
+    // Validar fecha
+    if (date.toString() === "Invalid Date") {
+        return res.json({ error: "Invalid Date" });
+    }
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+    // Respuesta JSON en el formato exacto que esperan los tests
+    res.json({
+        unix: date.getTime(),       // número en milisegundos
+        utc: date.toUTCString()     // string en formato Thu, 01 Jan 1970 00:00:00 GMT
+    });
 });
 
-
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
-});
-
-
-
-// Listen on port set in environment variable or default to 3000
-var listener = app.listen(process.env.PORT || 3000, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+// Importante: usar process.env.PORT para Replit/FreeCodeCamp
+const listener = app.listen(process.env.PORT || 3000, () => {
+    console.log("Node.js listening on port " + listener.address().port);
 });
