@@ -1,6 +1,20 @@
+
 const express = require("express");
 const app = express();
 
+// CORS para permitir que FreeCodeCamp haga las pruebas
+const cors = require('cors');
+app.use(cors({ optionsSuccessStatus: 200 }));
+
+// Servir archivos estáticos desde la carpeta 'public'
+app.use(express.static('public'));
+
+// Ruta para servir el HTML principal
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + '/views/index.html');
+});
+
+// API endpoint para timestamps
 app.get("/api/:date?", (req, res) => {
     const dateParam = req.params.date;
     let date;
@@ -9,7 +23,7 @@ app.get("/api/:date?", (req, res) => {
         // Si no hay parámetro, usar la fecha actual
         date = new Date();
     } else if (/^\d+$/.test(dateParam)) {
-        // Si es un número (timestamp en ms)ax
+        // Si es un número (timestamp en ms)
         date = new Date(parseInt(dateParam));
     } else {
         // Si es string (fecha en formato ISO)
