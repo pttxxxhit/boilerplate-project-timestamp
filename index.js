@@ -9,7 +9,7 @@ app.get("/api/:date?", (req, res) => {
         // Si no hay parámetro, usar la fecha actual
         date = new Date();
     } else if (/^\d+$/.test(dateParam)) {
-        // Si es un número (timestamp en ms)
+        // Si es un número (timestamp en ms)ax
         date = new Date(parseInt(dateParam));
     } else {
         // Si es string (fecha en formato ISO)
