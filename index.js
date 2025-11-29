@@ -23,12 +23,12 @@ app.get("/api/:date?", (req, res) => {
 
     // Respuesta JSON exacta
     res.json({
-        unix: date.getTime(),       // número en milisegundos
-        utc: date.toUTCString()     // string en formato Thu, 01 Jan 1970 00:00:00 GMT
+        unix: date.getTime(),
+        utc: date.toUTCString()
     });
 });
 
-// Importante: usar process.env.PORT para Replit/FreeCodeCamp
+// Importante: usar process.env.PORT para Render
 const listener = app.listen(process.env.PORT || 3000, () => {
     console.log("Node.js listening on port " + listener.address().port);
 });
