@@ -23,8 +23,8 @@ app.get("/api/:date?", (req, res) => {
 
     // Respuesta JSON exacta
     res.json({
-        unix: date.getTime(),
-        utc: date.toUTCString()
+        unix: date.getTime(),       // número en milisegundos
+        utc: date.toUTCString()     // string en formato Thu, 01 Jan 1970 00:00:00 GMT
     });
 });
 
